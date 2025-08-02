@@ -4,8 +4,10 @@ import type Category from "../../models/category";
 const CategoryGridTile: React.FC<Category> = ({ id, color, title }) => {
   return (
     <View style={styles.container}>
-      <Pressable style={styles.item}>
-        <Text>{title}</Text>
+      <Pressable
+        style={({ pressed }) => [styles.item, pressed && styles.buttonPressed]}
+      >
+        <Text style={styles.title}>{title}</Text>
       </Pressable>
     </View>
   );
@@ -14,13 +16,40 @@ const CategoryGridTile: React.FC<Category> = ({ id, color, title }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    /**
+     * flexDirection disini akan otomatis column
+     * Fungsi alignItems di React Native (dan juga di Flexbox CSS) adalah untuk mengatur posisi elemen anak di sepanjang cross axis (sumbu silang) dari container flex.
+     * Kalau flexDirection: 'column' → alignItems mengatur horizontal (kiri/kanan)
+     * Kalau flexDirection: 'row' → alignItems mengatur vertikal (atas/bawah)
+     * Jika set flex: 1 maka default alignItems: 'stretch'
+     * Jika alignItems: 'strect' maka child akan take semua space yang ada
+     */
     alignItems: "stretch",
+    aspectRatio: 1 / 1,
   },
   item: {
-    backgroundColor: "#f9c2ff",
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
     padding: 20,
     margin: 8,
+    borderRadius: 16,
+    elevation: 4, //shadow khusus android
+    backgroundColor: "white",
+    /**
+     * dibawah ini adalah untuk set shadow di ios
+     * tapi pastikan set backgroundColor kalo gak dia gak muncul
+     */
+    shadowColor: "black",
+    shadowOpacity: 0.25,
+    shadowOffset: { width: 0, height: 6 },
+    shadowRadius: 8,
+  },
+  title: {
+    fontSize: 16,
+  },
+  buttonPressed: {
+    opacity: 0.5,
   },
 });
 
