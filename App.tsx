@@ -1,15 +1,32 @@
 import { useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, SafeAreaView, Text } from "react-native";
-import CategoriesScreen from "./src/screens/CategoriesScreen";
+import { StyleSheet, View } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
 import {
   useFonts,
   Poppins_400Regular,
   Poppins_800ExtraBold,
 } from "@expo-google-fonts/poppins";
+import { createStaticNavigation } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
+import CategoriesScreen from "./src/screens/CategoriesScreen";
 
 SplashScreen.preventAutoHideAsync();
+
+const RootStack = createNativeStackNavigator({
+  initialRouteName: "Categories",
+  screens: {
+    Categories: {
+      screen: CategoriesScreen,
+      options: {
+        title: "Coba Dulu Bang Mantep",
+      },
+    },
+  },
+});
+
+const Navigation = createStaticNavigation(RootStack);
 
 export default function App() {
   const [fontsLoaded, fontsError] = useFonts({
@@ -23,14 +40,17 @@ export default function App() {
     }
   }, [fontsLoaded, fontsError]);
 
-  if ((Text as any).defaultProps == null) (Text as any).defaultProps = {};
-  (Text as any).defaultProps.style = { fontFamily: "Poppins_400Regular" };
+  /**
+   * Jadi awalnya kalo tanpa react navigation ini kita harus wrap container ini dengan <SafeAreaView></SaveAreaView> agar tidak tertimpa oleh notch atas dan bawah hp, intinya biar aman view nya gak ketimpa
+   *
+   * Tapi kalo udah pake react navigation ini udah otomatis pake safe area dari package yang di install barengan (baca dokumentasi) yaitu react-native-safe-area-context
+   */
 
   return (
-    <SafeAreaView style={styles.container}>
-      <CategoriesScreen />
+    <View style={styles.container}>
+      <Navigation />
       <StatusBar style="auto" />
-    </SafeAreaView>
+    </View>
   );
 }
 
