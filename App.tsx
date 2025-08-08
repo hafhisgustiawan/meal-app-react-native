@@ -29,9 +29,7 @@ export const RootStack = createNativeStackNavigator({
         title: "Categories List",
       },
     },
-    MealOverview: {
-      screen: MealOverviewScreen,
-    },
+    MealOverview: MealOverviewScreen,
   },
 });
 
