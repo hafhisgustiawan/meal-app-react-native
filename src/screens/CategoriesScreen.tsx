@@ -2,6 +2,7 @@ import { FlatList, StyleSheet, View } from "react-native";
 
 import { CATEGORIES } from "../../data/dummy-data";
 import CategoryGridTile from "../components/CategoryGridTile";
+import { useNavigation } from "@react-navigation/native";
 
 /**
 To render multiple columns, use the numColumns prop. Using this approach instead of a flexWrap layout can prevent conflicts with the item height logic.
@@ -12,24 +13,41 @@ More complex, selectable example below.
 - keyExtractor tells the list to use the ids for the react keys instead of the default key property.
  */
 
-const ItemSeparator = () => {
-  return (
-    <View
-      style={{
-        height: 1, // Height of the separator line
-        width: "100%", // Full width of the list
-        backgroundColor: "#CED0CE", // Color of the separator
-      }}
-    />
-  );
-};
+// const ItemSeparator = () => {
+//   return (
+//     <View
+//       style={{
+//         height: 1, // Height of the separator line
+//         width: "100%", // Full width of the list
+//         backgroundColor: "#CED0CE", // Color of the separator
+//       }}
+//     />
+//   );
+// };
 
-const CategoriesScreen: React.FC = () => {
+/**
+ * setiap component yang di registrasikan di createNativeStackNavigator agak membawa props {navigation, route} untuk bernavigasi (navigation.navigate('<patn-name>')) dan membaca data yang di kirim di route  (route.param) ini seperti intent di android
+ *
+ * Tapi sekarang untuk navigasi kita bisa pake hook useNavigation dari '@react-navigation/native' seperti dibawah ini
+ */
+
+const CategoriesScreen = () => {
+  const navigation = useNavigation();
+
+  const pressHandler = (id: string) => {
+    /**
+     * untuk type ini harus di set global declare dulu, cek src/index.d.ts
+     */
+    navigation.navigate("MealOverview", { id });
+  };
+
   return (
     <View style={styles.container}>
       <FlatList
         data={CATEGORIES}
-        renderItem={({ item }) => <CategoryGridTile {...item} />}
+        renderItem={({ item }) => (
+          <CategoryGridTile {...item} onPress={() => pressHandler(item.id)} />
+        )}
         keyExtractor={(el) => el.id}
         numColumns={2} //default 1
         // untuk list dengan grid, pake prop numColumns, mantaap kalo di java harus set linearLayout nya

@@ -11,17 +11,26 @@ import { createStaticNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import CategoriesScreen from "./src/screens/CategoriesScreen";
+import MealOverviewScreen from "./src/screens/MealOverviewScreen";
 
 SplashScreen.preventAutoHideAsync();
 
-const RootStack = createNativeStackNavigator({
+/**
+ * This navigator uses the native APIs UINavigationController on iOS and Fragment on Android so that navigation built with createNativeStackNavigator will behave exactly the same and have the same performance characteristics as apps built natively on top of those APIs. It also offers basic Web support using react-native-web.
+ *
+ * Jadi createNativeStackNavigator ini sudah implement toolbar dan titlenya bisa kita set di options, untuk pindah2 halaman juga udah implement fragment (android) dan UINavigationController (ios)
+ */
+export const RootStack = createNativeStackNavigator({
   initialRouteName: "Categories",
   screens: {
     Categories: {
       screen: CategoriesScreen,
       options: {
-        title: "Coba Dulu Bang Mantep",
+        title: "Categories List",
       },
+    },
+    MealOverview: {
+      screen: MealOverviewScreen,
     },
   },
 });
