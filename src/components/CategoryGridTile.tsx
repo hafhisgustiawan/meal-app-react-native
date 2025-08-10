@@ -39,15 +39,22 @@ const styles = StyleSheet.create({
     padding: 20,
     margin: 8,
     borderRadius: 16,
-    elevation: 4, //shadow khusus android
+    /**
+     * elevation
+     * seperti di xml android, jadi ini akan memunculkan efek shadow
+     * hanya ter-implementasikan di android saja
+     */
+    elevation: 4,
     backgroundColor: "white",
     /**
-     * dibawah ini adalah untuk set shadow di ios
+     * shadow*** dibawah
+     * berikut adalah untuk set shadow di ios
      * tapi pastikan set backgroundColor kalo gak dia gak muncul
+     * hanya ter-implementasikan di ios saja
      */
     shadowColor: "black",
-    shadowOpacity: 0.25,
-    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 1 },
     shadowRadius: 8,
   },
   title: {

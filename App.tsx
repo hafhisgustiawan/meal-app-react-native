@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, SafeAreaView } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
 import {
   useFonts,
@@ -13,6 +13,9 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import CategoriesScreen from "./src/screens/CategoriesScreen";
 import MealOverviewScreen from "./src/screens/MealOverviewScreen";
 
+/**
+ * ini untuk prevent splash screen nya mati ketika awal load
+ */
 SplashScreen.preventAutoHideAsync();
 
 /**
@@ -20,7 +23,7 @@ SplashScreen.preventAutoHideAsync();
  *
  * Jadi createNativeStackNavigator ini sudah implement toolbar dan titlenya bisa kita set di options, untuk pindah2 halaman juga udah implement fragment (android) dan UINavigationController (ios)
  */
-export const RootStack = createNativeStackNavigator({
+const RootStack = createNativeStackNavigator({
   initialRouteName: "Categories",
   screens: {
     Categories: {
@@ -48,6 +51,8 @@ export default function App() {
   }, [fontsLoaded, fontsError]);
 
   /**
+   * SafeAreaView disini berfungsi agar view tidak tertutup dibagian bawah aja, karena bagaian atas sudah pake createNativeStackNavigator, kecuali kita juga pake createBottomTabNavigation
+   *
    * Jadi awalnya kalo tanpa react navigation ini kita harus wrap container ini dengan <SafeAreaView></SaveAreaView> agar tidak tertimpa oleh notch atas dan bawah hp, intinya biar aman view nya gak ketimpa
    *
    * Tapi kalo udah pake react navigation ini udah otomatis pake safe area dari package yang di install barengan (baca dokumentasi) yaitu react-native-safe-area-context
@@ -55,7 +60,17 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Navigation />
+      {/**
+       * SafeAreaView
+       *
+       * SaveAreaView yang atas akan dibuat flex: 0 agar mencakup bagian atas saja, disini kita bisa melakukan custom style yang berbeda, antara atas dan bawah
+       *
+       * SaveAreaView yang atas akan dibuat flex: 1 agar mencakup seluruh bagian di layar
+       */}
+      <SafeAreaView style={styles.topSafeArea} />
+      <SafeAreaView style={styles.container}>
+        <Navigation />
+      </SafeAreaView>
       <StatusBar style="auto" />
     </View>
   );
@@ -64,7 +79,11 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#F0F0F0",
     fontFamily: "Poppins_800ExtraBold",
+  },
+  topSafeArea: {
+    flex: 0,
+    backgroundColor: "white",
   },
 });
