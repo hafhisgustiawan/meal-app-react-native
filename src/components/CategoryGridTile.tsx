@@ -1,11 +1,38 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import type Category from "../../models/category";
+import type { RouteProp } from "@react-navigation/native";
+import { ScreenParamList } from "..";
+
+type TRoute = RouteProp<ScreenParamList, "MealOverview">;
 
 interface IProps extends Category {
   onPress: () => void;
+  route: TRoute;
 }
 
-const CategoryGridTile: React.FC<IProps> = ({ id, color, title, onPress }) => {
+const CategoryGridTile: React.FC<IProps> = ({
+  id,
+  color,
+  title,
+  onPress,
+  route,
+}) => {
+  /**
+   * props.route
+   *
+   * untuk component ini, kita coba passting route dari screen component yang menjadi parent nya
+   *
+   * untuk route ini di provide oleh react navigation, jadi tiap screen component yang ter-daftar di createNativeStackNavigator() akan menerima props ini
+   *
+   * down side nya, props.route ini hanya akan di provide untuk parent component aja. Sedangkan untuk child nya (nested component) tidak akan di provide jika tidak di passing dari parent nya
+   *
+   * solusinya kalo case seperti ini pake useRoute
+   *
+   * useRoute is a hook which gives access to route object. It's useful when you cannot pass down the route object from props to the component, or don't want to pass it in case of a deeply nested child.
+   *
+   * useRoute() returns the route object of the screen it's inside.
+   */
+
   return (
     <View style={styles.container}>
       <Pressable

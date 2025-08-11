@@ -26,7 +26,7 @@ type Props = NativeStackScreenProps<ScreenParamList, "MealOverview">;
  * Tapi sekarang untuk navigasi kita bisa pake hook useNavigation dari '@react-navigation/native' seperti dibawah ini
  */
 
-const CategoriesScreen: React.FC<Props> = () => {
+const CategoriesScreen: React.FC<Props> = ({ route }) => {
   /**
    * Approach 1 : kita bisa pake props.navigation untuk bernavigasi ke halaman lain, minus nya props ini hanya akan didistribusikan di component yang terdaftar di createNativeStackNavigator() function
    *
@@ -55,7 +55,11 @@ const CategoriesScreen: React.FC<Props> = () => {
       <FlatList
         data={CATEGORIES} //data ini array atau array of object harusnya, karena data ini yang akan di mapping di renderItem dibawah
         renderItem={({ item }) => (
-          <CategoryGridTile {...item} onPress={() => pressHandler(item.id)} />
+          <CategoryGridTile
+            {...item}
+            onPress={() => pressHandler(item.id)}
+            route={route}
+          />
         )}
         keyExtractor={(el) => el.id}
         numColumns={2} //default 1
