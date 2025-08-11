@@ -1,7 +1,7 @@
 import { FlatList, StyleSheet, View } from "react-native";
 
 import { CATEGORIES } from "../../data/dummy-data";
-import CategoryGridTile from "../components/CategoryGridTile";
+import CategoryGridTile from "../components/cards/CategoryGridTile";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { ScreenParamList } from "..";
@@ -34,11 +34,11 @@ const CategoriesScreen: React.FC<Props> = ({ route }) => {
    */
   const navigation = useNavigation();
 
-  const pressHandler = (id: string) => {
+  const pressHandler = (id: string, title: string) => {
     /**
      * untuk type ini harus di set global declare dulu, cek src/index.d.ts
      */
-    navigation.navigate("MealOverview", { id });
+    navigation.navigate("MealOverview", { id, title });
   };
 
   /**
@@ -53,21 +53,34 @@ const CategoriesScreen: React.FC<Props> = ({ route }) => {
   return (
     <View style={styles.container}>
       <FlatList
-        data={CATEGORIES} //data ini array atau array of object harusnya, karena data ini yang akan di mapping di renderItem dibawah
+        /**
+         * data ini array atau array of object harusnya, karena data ini yang akan di mapping di renderItem dibawah
+         */
+        data={CATEGORIES}
+        /**
+         * renderItem untuk masukin component yang akan di render di list
+         *
+         * param nya ini ada property index, item dan separator
+         *
+         * extract item kalo mau ambil element dari data
+         */
         renderItem={({ item }) => (
           <CategoryGridTile
             {...item}
-            onPress={() => pressHandler(item.id)}
+            onPress={() => pressHandler(item.id, item.title)}
             route={route}
           />
         )}
+        /**
+         * ini passing key prop untuk tiap item yang di render, since ini bukan react web, bisa pake ini di flat list
+         */
         keyExtractor={(el) => el.id}
-        numColumns={2} //default 1
         /**
          * untuk list dengan grid, pake prop numColumns, mantaap kalo di java harus set linearLayout nya
          *
          * ItemSeparatorComponent={ItemSeparator} //ini untuk separator yang akan memisahkan tiap rendered item, tapi kayaknya dia cuma vertical aja sih bisanya
          */
+        numColumns={2}
       />
     </View>
   );

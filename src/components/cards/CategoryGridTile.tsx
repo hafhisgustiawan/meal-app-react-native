@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
-import type Category from "../../models/category";
+import type Category from "../../../models/category";
 import type { RouteProp } from "@react-navigation/native";
-import { ScreenParamList } from "..";
+import { ScreenParamList } from "../..";
 
 type TRoute = RouteProp<ScreenParamList, "MealOverview">;
 
@@ -20,9 +20,9 @@ const CategoryGridTile: React.FC<IProps> = ({
   /**
    * props.route
    *
-   * untuk component ini, kita coba passting route dari screen component yang menjadi parent nya
+   * untuk component ini, kita coba passing route dari screen component yang menjadi parent nya
    *
-   * untuk route ini di provide oleh react navigation, jadi tiap screen component yang ter-daftar di createNativeStackNavigator() akan menerima props ini
+   * untuk props.route ini di provide oleh react navigation, jadi tiap screen component yang ter-daftar di createNativeStackNavigator() akan menerima props ini
    *
    * down side nya, props.route ini hanya akan di provide untuk parent component aja. Sedangkan untuk child nya (nested component) tidak akan di provide jika tidak di passing dari parent nya
    *
@@ -54,9 +54,7 @@ const styles = StyleSheet.create({
      * Kalau flexDirection: 'column' → alignItems mengatur horizontal (kiri/kanan)
      * Kalau flexDirection: 'row' → alignItems mengatur vertikal (atas/bawah)
      * Jika set flex: 1 maka default alignItems: 'stretch'
-     * Jika alignItems: 'strect' maka child akan take semua space yang ada
      */
-    alignItems: "stretch",
     aspectRatio: 1 / 1,
   },
   item: {

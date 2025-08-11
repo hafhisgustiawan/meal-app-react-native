@@ -22,9 +22,23 @@ SplashScreen.preventAutoHideAsync();
  * This navigator uses the native APIs UINavigationController on iOS and Fragment on Android so that navigation built with createNativeStackNavigator will behave exactly the same and have the same performance characteristics as apps built natively on top of those APIs. It also offers basic Web support using react-native-web.
  *
  * Jadi createNativeStackNavigator ini sudah implement toolbar dan titlenya bisa kita set di options, untuk pindah2 halaman juga udah implement fragment (android) dan UINavigationController (ios)
+ *
+ * Untuk styling atau setting header, kita bisa pake properti options di dalam properti screen atau kalo mau global bisa pake screenOptions seperti dibawah ini
  */
 const RootStack = createNativeStackNavigator({
   initialRouteName: "Categories",
+  screenOptions: {
+    headerStyle: {
+      backgroundColor: "brown",
+    },
+    /**
+     * Set tint color for title and back button
+     */
+    headerTintColor: "#fff",
+    headerTitleStyle: {
+      fontWeight: "bold",
+    },
+  },
   screens: {
     Categories: {
       screen: CategoriesScreen,
@@ -84,6 +98,6 @@ const styles = StyleSheet.create({
   },
   topSafeArea: {
     flex: 0,
-    backgroundColor: "white",
+    backgroundColor: "brown",
   },
 });

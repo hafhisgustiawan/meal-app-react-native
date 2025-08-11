@@ -10,7 +10,7 @@ import { RootStack } from "../App";
  */
 export type ScreenParamList = {
   Categories: undefined;
-  MealOverview: { id: string };
+  MealOverview: { id: string; title: string };
 };
 
 /**
