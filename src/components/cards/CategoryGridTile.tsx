@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { View, Text, StyleSheet, Pressable, Platform } from "react-native";
 import type Category from "../../../models/category";
 import type { RouteProp } from "@react-navigation/native";
 import { ScreenParamList } from "../..";
@@ -64,23 +64,16 @@ const styles = StyleSheet.create({
     padding: 20,
     margin: 8,
     borderRadius: 16,
-    /**
-     * elevation
-     * seperti di xml android, jadi ini akan memunculkan efek shadow
-     * hanya ter-implementasikan di android saja
-     */
-    elevation: 4,
-    backgroundColor: "white",
-    /**
-     * shadow*** dibawah
-     * berikut adalah untuk set shadow di ios
-     * tapi pastikan set backgroundColor kalo gak dia gak muncul
-     * hanya ter-implementasikan di ios saja
-     */
-    shadowColor: "black",
-    shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 1 },
-    shadowRadius: 8,
+    ...Platform.select({
+      android: { elevation: 4 },
+      ios: {
+        backgroundColor: "white",
+        shadowColor: "black",
+        shadowOpacity: 0.1,
+        shadowOffset: { width: 0, height: 1 },
+        shadowRadius: 8,
+      },
+    }),
   },
   title: {
     fontSize: 16,
